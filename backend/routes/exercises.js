@@ -20,8 +20,8 @@ router.route('/add').post((req, res) => {
         time,
     });
 
-    newUser.save()
-        .then(() => res.json('User added!'))   //ye promise hai agar save hai to return kar json added
+    newExercise.save()
+        .then(() => res.json('Exercise added!'))   //ye promise hai agar save hai to return kar json added
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
