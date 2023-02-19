@@ -2,16 +2,15 @@ import React, { Component } from 'react';
 
 export default class CreateExercise extends Component {
   constructor(props) {
-    super(props);
+    super(props);     //always call super when defining the constructor of a subclass
     
-    //'this' in console log will be undefined, we want this to refer to this class, jo we bind
+    //'this' in console log will be undefined, we want this to refer to this class, so we bind
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeDescription = this.onChangeDescription.bind(this);
     this.onChangeDuration = this.onChangeDuration.bind(this);
-    this.onChangeDate = this.onChangeDate.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
-    this.state = {
+    this.state = {            //state is always how you create variables in react
       username: '',
       description: '',
       duration: 0,
@@ -19,11 +18,18 @@ export default class CreateExercise extends Component {
       users: []
     }
   }
+  //right before anything loads, react is going to run this method
+  componentDidMount(){       //This is react's life cycle method that react automatically call at different points
+    this.setState({
+      users: ['test user'],
+      username: 'test user'
+    })
+  }
 
 
   onChangeUsername(e) {
     this.setState({
-      username: e.target.value
+      username: e.target.value          //yaha target textbox hai, uski jaakr value change krni hai
     })
   }
 
@@ -39,14 +45,8 @@ export default class CreateExercise extends Component {
     })
   }
 
-  onChangeDate(date) {
-    this.setState({
-      date: date
-    })
-  }
-
   onSubmit(e) {
-    e.preventDefault();
+    e.preventDefault();  //ye normal HTML form submit behaviour ko prevent krta hai
 
     console.log(e);
     // return;
@@ -57,9 +57,9 @@ export default class CreateExercise extends Component {
       duration: this.state.duration,
       
     }
-
     console.log(exercise);
-    window.location = '/';
+
+    window.location = '/';  //we will take the person back to home page(list of exercises)
   }
 
   render() {
@@ -67,6 +67,7 @@ export default class CreateExercise extends Component {
     <div>
       <h3>Create New Exercise Log</h3>
       <form onSubmit={this.onSubmit}>
+
         <div className="form-group"> 
           <label>Username: </label>
           <select
@@ -75,7 +76,7 @@ export default class CreateExercise extends Component {
               value={this.state.username}
               onChange={this.onChangeUsername}>
               {
-                this.state.users.map(function(user) {
+                this.state.users.map(function(user) { //.map allows us to return something for each element in an array
                   return <option 
                     key={user}
                     value={user}>{user}
@@ -84,6 +85,7 @@ export default class CreateExercise extends Component {
               }
           </select>
         </div>
+
         <div className="form-group"> 
           <label>Description: </label>
           <input  type="text"
@@ -93,6 +95,7 @@ export default class CreateExercise extends Component {
               onChange={this.onChangeDescription}
               />
         </div>
+
         <div className="form-group">
           <label>Duration (in minutes): </label>
           <input 
@@ -108,6 +111,7 @@ export default class CreateExercise extends Component {
           <br/>
           <input type="submit" value="Create Exercise Log" className="btn btn-primary" />
         </div>
+        
       </form>
     </div>
     )

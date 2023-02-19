@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class CreateUser extends Component {
   constructor(props) {
@@ -29,8 +30,12 @@ export default class CreateUser extends Component {
 
     console.log(user);
 
+    //send user data to backend
+    axios.post('http://localhost:5000/users/add',user)
+      .then(res => console.log(res.data));  //it's a promise that after we post it, this is what we are going to do
+
     this.setState({
-      username: ''
+      username: ''        //when someone has entered the user, we should set its state again to blank
     })
   }
 
