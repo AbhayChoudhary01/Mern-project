@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 export default class CreateExercise extends Component {
   constructor(props) {
@@ -20,10 +21,15 @@ export default class CreateExercise extends Component {
   }
   //right before anything loads, react is going to run this method
   componentDidMount(){       //This is react's life cycle method that react automatically call at different points
-    this.setState({
-      users: ['test user'],
-      username: 'test user'
-    })
+    axios.get('http://localhost:5000/users/')
+      .then(response => {
+        if (response.data.length>0){
+          this.setState({
+            users: response.data.map(user => user.username),
+            username: response.data[0].username
+          })
+        }
+      })
   }
 
 
@@ -58,6 +64,9 @@ export default class CreateExercise extends Component {
       
     }
     console.log(exercise);
+
+    axios.post('http://localhost:5000/exercises/add',exercise)
+      .then(res => console.log(res.data));
 
     window.location = '/';  //we will take the person back to home page(list of exercises)
   }

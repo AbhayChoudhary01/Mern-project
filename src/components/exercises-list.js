@@ -15,44 +15,35 @@ const Exercise = props => (
   </tr>
 )
 
-export default class ExercisesList extends Component {
- 
-  constructor(props) {
-    console.log("constructor called for exercise list !");
-    console.log(props)  //initially empty 
-
-    //always call super when defining constructor of subclass
+export default class EditExercise extends Component{
+  constructor(props){
+    console.log("constructor called");
+    console.log(props);
     super(props);
 
-    this.deleteExercise = this.deleteExercise.bind(this)
+    this.deleteExercise = this.deleteExercise.bind(this);
 
-    this.state = {exercises: []};
-  }   
+    this.state = {exercises: []}
+  }
 
-  componentDidMount() {
-    console.log("Component mount ?? fn");
-
+  componentDidMount(){
     axios.get('http://localhost:5000/exercises/')
       .then(response => {
-        console.log(response.data[0]._id);
-        this.setState({ exercises: response.data })
+        this.setState({ exercices: response.data })
       })
       .catch((error) => {
-        console.log(error);
+        console.log(error)
       })
-
   }
 
-  deleteExercise(id) {
-    console.log("delete fn called ");
-    axios.delete('http://localhost:5000/exercises/'+id)
-      .then(response => { console.log(response.data)});
+  deleteExercise(id){
+    axios.delete('http://localhost:5000?exercises/' + id)
+      .then(res => console.log(res.data));
 
-    this.setState({
-      exercises: this.state.exercises.filter(el => el._id !== id)
-    })
-  }
-
+      this.setState({
+        exercises: this.state.exercises.filter(el => el._id !== id) //for every element in an array we are going to 
+      })                                                            //to return it if id of the exercise in the exercises array is not
+  }                                                           //equal to the id that we are deleting we will pass it back to array
   exerciseList() {
     console.log("list fn called ");
     return this.state.exercises.map(currentexercise => {
@@ -83,5 +74,4 @@ export default class ExercisesList extends Component {
       </div>
     )
   }
-
 }
